@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="snippets.html :: name_head">
+    <title> Order Welcome page </title>
+</head>
+<body>
+    <nav th:replace="snippets.html :: name_navbar"></nav>
+
+    <div class="container">
+        <div class="form-inline">
+            <h3>Orders</h3>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div id="errorDiv" class="col-xs-12" style="color:red;"> </div>
+        </div>
+
+        <div class="container">
+            <!-- Orders Homepage-->
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-inline" id="order-create-form">
+
+                        <a th:href="@{/ui/order/create}"><button type="button" class="btn btn-primary" id="add-order">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Place Order
+                        </button></a>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" id="refresh-data">
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>Refresh
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-warning" id="allocate-order">Allocate Orders</button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-danger" id="fulfill-order">Generate Invoice</button>
+                        &nbsp;&nbsp;
+                        <a th:href="@{/ui/home}"><button type="button" class="btn btn-secondary float-right" id="back">
+                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back
+                        </button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+
+                <!-- Table -->
+                <div class="col-12">
+                    <table class="table table-striped table-hover" id="order-table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">OrderId</th>
+                            <th scope="col">ClientName</th>
+                            <th scope="col">CustomerId</th>
+                            <th scope="col">ChannelName</th>
+                            <th scope="col">ChannelOrderId</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="snippets.html :: name_footer"></footer>
+        <script th:src="@{/static/order.js}"></script>
+
+    </div>
+
+</body>
+</html>

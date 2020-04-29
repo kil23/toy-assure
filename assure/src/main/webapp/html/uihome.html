@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="snippets.html :: name_head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+
+</head>
+
+<body>
+
+    <nav th:replace="snippets.html :: name_navbar"></nav>
+    <div class="container">
+
+    </div>
+
+    <div class="container body">
+
+        <main role="main">
+
+            <h3> Toy-Assure-UI </h3>
+
+            <!-- Marketing messaging and featurettes
+            ================================================== -->
+            <!-- Wrap the rest of the page in another container to center all the content. -->
+
+            <div class="container marketing">
+
+                <!-- Three columns of text below the carousel -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h2>Clients</h2>
+                        <p> All operations related to Clients or Customers.</p>
+                        <p><a class="btn btn-secondary" th:href="@{/ui/client}" role="button">View details &raquo;</a></p>
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <h2>Bins</h2>
+                        <p> All operations related to a Bin and Inventory.</p>
+                        <p><a class="btn btn-secondary" th:href="@{/ui/bin}" role="button">View details &raquo;</a></p>
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <h2>Orders</h2>
+                        <p> All operations related to Order management.</p>
+                        <p><a class="btn btn-secondary" th:href="@{/ui/order}" role="button">View details &raquo;</a></p>
+                    </div><!-- /.col-lg-4 -->
+                </div><!-- /.row -->
+
+            </div><!-- /.container -->
+
+            <footer th:replace="snippets.html :: name_footer"></footer>
+
+        </main>
+    </div>
+
+<script type="text/javascript" th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

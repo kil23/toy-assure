@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="snippets.html :: name_head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+
+</head>
+
+<body>
+
+    <nav th:replace="snippets.html :: name_navbar"></nav>
+    <div class="container">
+
+    </div>
+
+    <div class="container body">
+
+        <main role="main">
+
+            <h3> Channel-App </h3>
+
+            <!-- Marketing messaging and featurettes
+            ================================================== -->
+            <!-- Wrap the rest of the page in another container to center all the content. -->
+
+            <div class="container marketing">
+
+                <!-- Three columns of text below the carousel -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h2>Create Channel</h2>
+                        <p> Create a new Channel and all the listings here.</p>
+                        <p><a class="btn btn-secondary" th:href="@{/channel/create}" role="button">View details &raquo;</a></p>
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <h2>Create a new Orders</h2>
+                        <p> Operations to create new Order for a channel.</p>
+                        <p><a class="btn btn-secondary" th:href="@{/channel/order}" role="button">View details &raquo;</a></p>
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <h2>Check Placed Orders</h2>
+                        <p> Check all the details of the orders that are placed.</p>
+                        <p><a class="btn btn-secondary" th:href="@{/channel/order-list}" role="button">View details &raquo;</a></p>
+                    </div><!-- /.col-lg-4 -->
+                </div><!-- /.row -->
+
+            </div><!-- /.container -->
+
+            <footer th:replace="snippets.html :: name_footer"></footer>
+
+        </main>
+    </div>
+
+<script type="text/javascript" th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

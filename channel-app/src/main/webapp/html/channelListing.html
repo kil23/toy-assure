@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="snippets.html :: name_head">
+    <title> Channel-Listing Welcome page </title>
+</head>
+<body>
+
+    <nav th:replace="snippets.html :: name_navbar"></nav>
+
+    <div class="container">
+        <div class="form-inline">
+            <h3>Channel-Listings </h3>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div id="errorDiv" class="col-xs-12" style="color:red;"> </div>
+        </div>
+
+        <div class="container form-inline">
+            <!-- Upload new Channel-Listing-->
+            <form class="form-inline" id="client-form">
+                <div class="form-group">
+                    <div class="col-12">
+                        <select class="form-control" id="clientSelect" name="client">
+                            <option value="">Select Client/Customer</option>
+                        </select>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-info" id="upload-data">
+                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Upload
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-inline" id="listing-form">
+                        <button type="button" class="btn btn-success" id="refresh-data">
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>Refresh
+                        </button>
+                        &nbsp;&nbsp;
+                        <a th:href="@{/channel/create}"><button type="button" class="btn btn-secondary float-right" id="back">
+                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back
+                        </button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+
+                <!-- Table -->
+                <div class="col-12">
+                    <table class="table table-striped table-hover" id="listing-table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ClientId</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <!--        Upload Channel-List file.-->
+        <div th:replace="snippets.html :: name_upload"></div>
+
+        <footer th:replace="snippets.html :: name_footer"></footer>
+        <script th:src="@{/static/channelListing.js}"></script>
+    </div>
+</body>
+</html>

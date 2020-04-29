@@ -1,0 +1,124 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="snippets.html :: name_head">
+    <title> Product Welcome page </title>
+</head>
+<body>
+
+    <nav th:replace="snippets.html :: name_navbar"></nav>
+
+    <div class="container">
+        <div class="form-inline">
+            <h3>Products </h3>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div id="errorDiv" class="col-xs-12" style="color:red;"> </div>
+        </div>
+
+       <div class="container">
+           <!-- Upload new Products-->
+           <div class="row">
+               <div class="col-12">
+                   <form class="form-inline" id="product-form">
+                       <button type="button" class="btn btn-success" id="refresh-data">
+                           <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>Refresh
+                       </button>
+                       &nbsp;&nbsp;
+                       <button type="button" class="btn btn-info" id="upload-data">
+                           <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Upload
+                       </button>
+                       &nbsp;&nbsp;
+                       <a th:href="@{/ui/client}"><button type="button" class="btn btn-secondary float-right" id="back">
+                           <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back
+                       </button></a>
+                   </form>
+               </div>
+           </div>
+       </div>
+
+        <div class="container">
+            <div class="row">
+
+                <!-- Table -->
+                <div class="col-12">
+                    <table class="table table-striped table-hover" id="product-table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">GlobalSkuId</th>
+                            <th scope="col">ClientSkuId</th>
+                            <th scope="col">ClientId</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">BrandId</th>
+                            <th scope="col">MRP</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Client Edit Modal -->
+        <div class="modal" tabindex="-1" role="dialog" id="update-product-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Product Info</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-inline" id="product-update-form">
+                            <div class="form-group">
+                                <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputBrandId" class="col-sm-2 col-form-label">BrandId</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="brandId" id="inputBrandId" placeholder="Enter brand id">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputMrp" class="col-sm-2 col-form-label">Mrp</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="mrp" id="inputMrp" placeholder="Enter Mrp">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDes" class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="description" id="inputDes" placeholder="Enter description">
+                                </div>
+                            </div>
+                            <input type="hidden" name="clientSkuId">
+                            <input type="hidden" name="globalSkuId" disabled="disabled">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>Cancel
+                        </button>
+                        <button type="button" class="btn btn-primary" id="update-product">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        Upload Product file.-->
+        <div th:replace="snippets.html :: name_upload"></div>
+
+        <footer th:replace="snippets.html :: name_footer"></footer>
+        <script th:src="@{/static/product.js}"></script>
+    </div>
+</body>
+</html>

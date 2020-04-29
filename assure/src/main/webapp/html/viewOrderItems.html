@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="snippets.html :: name_head">
+    <title> Order-items Welcome page </title>
+</head>
+<body>
+
+<nav th:replace="snippets.html :: name_navbar"></nav>
+
+<div class="container">
+    <div class="form-inline">
+        <h3>View Order Items </h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div id="errorDiv" class="col-xs-12" style="color:red;"> </div>
+    </div>
+
+    <div class="container">
+        <!--View Order items-->
+        <div class="row">
+            <div class="col-12">
+                <form class="form-inline" id="view-order-item-form">
+                    <button type="button" class="btn btn-success float-right" id="refresh-data">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>Refresh Page
+                    </button>
+                    &nbsp;&nbsp;
+                    <a th:href="@{/ui/order}"><button type="button" class="btn btn-secondary float-right" id="back">
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back
+                    </button></a>
+                    &nbsp;&nbsp;
+                </form>
+            </div>
+        </div>
+        &nbsp;&nbsp;
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Table -->
+            <div class="col-12">
+                <table class="table table-striped table-hover" id="order-item-table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">GlobalSkuId</th>
+                        <th scope="col">ClientSkuId</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">BrandId</th>
+                        <th scope="col">OrderedQuantity</th>
+                        <th scope="col">AllocatedQuantity</th>
+                        <th scope="col">FulfilledQuantity</th>
+                        <th scope="col">SellingPricePerUnit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+    <footer th:replace="snippets.html :: name_footer"></footer>
+    <script th:src="@{/static/viewOrderItems.js}"></script>
+</div>
+</body>
+</html>
