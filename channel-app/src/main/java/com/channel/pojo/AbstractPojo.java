@@ -19,5 +19,4 @@ public abstract class AbstractPojo {
     public void setUpdatedAt(){
         this.updatedAt = ZonedDateTime.now();
     }
-
 }
