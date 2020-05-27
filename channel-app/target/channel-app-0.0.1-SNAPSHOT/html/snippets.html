@@ -1,0 +1,142 @@
+<head th:fragment="name_head">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="baseUrl" th:attr="content=${baseUrl}">
+
+
+    <script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/static/app.css}">
+    <link rel="stylesheet" th:href="@{/static/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/jquery.toast.min.css}">
+
+</head>
+
+<nav class="col-md-3 d-none d-md-block bg-light sidebar sticky-top" th:fragment="name_navbar">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item ">
+                <img th:src="@{/static/logo.jpg}" class="d-inline-block align-top" alt="">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/channel/home}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Home <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/channel/create}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                    Channel
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/channel/order}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    Create Order
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/channel/order-list}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    View Orders
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="modal" tabindex="-1" role="dialog" id="upload-modal" th:fragment="name_upload">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100 font-weight-bold">Upload File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="form-group mb-4 ml-3 required">
+                    <div class="custom-control">
+                        <input type="file" class="custom-file-input" id="fileName" accept=".text/csv" required>
+                        <label class="custom-file-label" for="fileName" id="csvFileName">Choose file</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-outline-primary" id="process-data">Upload Data</button>
+                <button type="button" class="btn btn-outline-warning" id="download-errors">Download Errors</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="page-footer font-small" th:fragment="name_footer">
+    <!-- Footer Elements -->
+
+    <div class="container">
+
+        <hr class="rgba-white-light" style="margin: 0 10%;">
+
+        <!-- Grid row-->
+        <div class="row text-center d-flex justify-content-center pt-4 pb-3">
+
+            <!-- Grid column -->
+            <div class="col-md-2 pb-3">
+                <h6 class="text-uppercase font-weight-bold">
+                    <a href="#!">About us</a>
+                </h6>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 pb-3">
+                <h6 class="text-uppercase font-weight-bold">
+                    <a href="#!">Products</a>
+                </h6>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 pb-3">
+                <h6 class="text-uppercase font-weight-bold">
+                    <a href="#!">Awards</a>
+                </h6>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 pb-3">
+                <h6 class="text-uppercase font-weight-bold">
+                    <a href="#!">Help</a>
+                </h6>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 pb-3">
+                <h6 class="text-uppercase font-weight-bold">
+                    <a href="#!">Contact</a>
+                </h6>
+            </div>
+            <!-- Grid column -->
+        </div>
+    </div>
+
+    <hr class="rgba-white-light" style="margin: 0 5%;">
+
+    <!-- Footer Links -->    <!-- Footer Elements -->
+    <div class="footer-copyright text-center py-1">&copy; Copyright Increff 2020, Inc.
+        <a href="https://www.increff.com/"> Increff.com</a>
+        <p class="float-right"><a href="#">Back to top</a></p>
+    </div>
+    &nbsp;
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script th:src="@{/static/app.js}"></script>
+    <script th:src="@{/static/bootstrap.min.js}"></script>
+    <script th:src="@{/static/jquery.toast.min.js}"></script>
+    <script th:src="@{/static/papaparse.min.js}"></script>
+</footer>
+

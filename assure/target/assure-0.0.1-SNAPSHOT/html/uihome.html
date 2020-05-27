@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="snippets.html :: name_head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav th:replace="snippets.html :: name_navbar"></nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-9">
+                <div class="container body">
+                    <main role="main">
+                        <div class="container marketing">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h2>Clients</h2>
+                                    <p> Operation related to Clients and Customers.</p>
+                                    <p><a class="btn btn-outline-secondary" th:href="@{/ui/client}" role="button">View details &raquo;</a></p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h2>Inventory</h2>
+                                    <p> Operation related to Bins and Inventory.</p>
+                                    <p><a class="btn btn-outline-secondary" th:href="@{/ui/inventory}" role="button">View details &raquo;</a></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h2>Products</h2>
+                                    <p> Operation related to Products.</p>
+                                    <p><a class="btn btn-outline-secondary" th:href="@{/ui/product}" role="button">View details &raquo;</a></p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h2>Orders</h2>
+                                    <p> Operation related to Orders.</p>
+                                    <p><a class="btn btn-outline-secondary" th:href="@{/ui/order}" role="button">View details &raquo;</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </main>
+                </div>
+            </main>
+        </div>
+        <footer th:replace="snippets.html :: name_footer"></footer>
+    </div>
+</body>
+
+</html>

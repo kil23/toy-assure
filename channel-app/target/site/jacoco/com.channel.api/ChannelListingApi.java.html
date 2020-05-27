@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChannelListingApi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">channel-app</a> &gt; <a href="index.source.html" class="el_package">com.channel.api</a> &gt; <span class="el_source">ChannelListingApi.java</span></div><h1>ChannelListingApi.java</h1><pre class="source lang-java linenums">package com.channel.api;
+
+import com.channel.dao.ChannelListingDao;
+import com.channel.pojo.ChannelListing;
+import com.commons.service.ApiException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Service
+<span class="fc" id="L15">public class ChannelListingApi {</span>
+
+    @Autowired
+    private ChannelListingDao listingDao;
+
+    @Transactional
+    public ChannelListing addListing(ChannelListing channelListing) {
+<span class="fc" id="L22">        return listingDao.insert(channelListing);</span>
+    }
+
+    @Transactional
+    public void deleteListing(ChannelListing listing) {
+<span class="fc" id="L27">        listingDao.delete(listing);</span>
+<span class="fc" id="L28">    }</span>
+
+    @Transactional(readOnly = true)
+    public ChannelListing getChannelListing(Long globalSkuId, Long channelId) {
+<span class="fc" id="L32">        return listingDao.getChannelListing(globalSkuId, channelId);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public ChannelListing getListing(Long listingId) {
+<span class="fc" id="L37">        return listingDao.findOne(listingId);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;ChannelListing&gt; getAllChannelListing(Long channelId, Long clientId) {
+<span class="fc" id="L42">        return listingDao.getChannelListings(channelId, clientId);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;ChannelListing&gt; getAllChannelListingForChannel(Long channelId) {
+<span class="fc" id="L47">        return listingDao.getChannelListing(channelId);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public Set&lt;Long&gt; getUniqueChannelIdByClientId(Long clientId) {
+<span class="fc" id="L52">        List&lt;ChannelListing&gt; list = listingDao.getDistinctChannelListings(clientId);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if(list.isEmpty()){</span>
+<span class="nc" id="L54">            throw new ApiException(&quot;No Unique Channel-id found.&quot;);</span>
+        }
+<span class="fc" id="L56">        Set&lt;Long&gt; channelSet = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        for(ChannelListing pojo : list){</span>
+<span class="fc" id="L58">            channelSet.add(pojo.getChannelId());</span>
+<span class="fc" id="L59">        }</span>
+<span class="fc" id="L60">        return channelSet;</span>
+    }
+
+    @Transactional(readOnly = true)
+    public boolean checkIfClientIdIsPresentInChannelListing(Long channelId, Long clientId) {
+<span class="fc" id="L65">        List&lt;ChannelListing&gt; list = listingDao.getChannelListings(channelId, clientId);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">        return !list.isEmpty();</span>
+    }
+
+    public ChannelListing getChannelListingData(String channelSkuId, Long clientId) {
+<span class="nc" id="L70">        return listingDao.getChannelListingData(channelSkuId, clientId);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

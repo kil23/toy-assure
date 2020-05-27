@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderApiController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.assure.controller</a> &gt; <span class="el_source">OrderApiController.java</span></div><h1>OrderApiController.java</h1><pre class="source lang-java linenums">package com.assure.controller;
+
+import com.assure.dto.OrderDto;
+import com.assure.model.form.OrderForm;
+import com.commons.response.*;
+import com.assure.pojo.Order;
+import com.assure.validators.ChannelOrderFormValidator;
+import com.assure.validators.OrderFormValidator;
+import com.commons.form.ChannelOrderForm;
+import com.commons.service.ApiException;
+import com.commons.service.CustomValidationException;
+import io.swagger.annotations.ApiOperation;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
+
+@RestController
+<span class="fc" id="L24">public class OrderApiController {</span>
+
+    @Autowired private OrderDto orderDto;
+    @Autowired private OrderFormValidator orderFormValidator;
+    @Autowired private ChannelOrderFormValidator channelOrderFormValidator;
+
+<span class="fc" id="L30">    private static final Logger logger = Logger.getLogger(OrderApiController.class);</span>
+
+    @ApiOperation(value = &quot;Adds a new order&quot;)
+    @RequestMapping(value = &quot;/api/order&quot;, method = RequestMethod.POST)
+    public ResponseEntity&lt;String&gt; addOrderDetail(@Valid @RequestBody OrderForm formData,
+                                                 BindingResult result) {
+<span class="nc" id="L36">        logger.info(&quot;add-new-order&quot;);</span>
+<span class="nc" id="L37">        orderFormValidator.validate(formData, result);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (result.hasErrors()) {</span>
+<span class="nc" id="L39">            throw new CustomValidationException(result);</span>
+        }
+<span class="nc" id="L41">        orderDto.addOrder(formData);</span>
+<span class="nc" id="L42">        return ResponseEntity.ok(&quot;Request submitted successfully.&quot;);</span>
+    }
+
+    @ApiOperation(value = &quot;Adds a new order&quot;)
+    @RequestMapping(value = &quot;/api/channel/order&quot;, method = RequestMethod.POST)
+    public ResponseEntity&lt;String&gt; addChannelOrderDetail(@Valid @RequestBody ChannelOrderForm formData,
+                                                        BindingResult result) {
+<span class="nc" id="L49">        logger.info(&quot;add-new-channel-order&quot;);</span>
+<span class="nc" id="L50">        logger.info(&quot;ChannelId &quot; +formData.getChannelId());</span>
+<span class="nc" id="L51">        logger.info(&quot;Channel Order Id &quot; +formData.getChannelOrderId());</span>
+<span class="nc" id="L52">        logger.info(&quot;Client Id &quot; +formData.getClientId());</span>
+<span class="nc" id="L53">        logger.info(&quot;Customer Id &quot; +formData.getCustomerId());</span>
+<span class="nc" id="L54">        channelOrderFormValidator.validate(formData, result);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (result.hasErrors()) {</span>
+<span class="nc" id="L56">            logger.info(result.getErrorCount());</span>
+<span class="nc" id="L57">            logger.info(result.getFieldErrors().get(0).getDefaultMessage());</span>
+<span class="nc" id="L58">            throw new CustomValidationException(result);</span>
+        }
+<span class="nc" id="L60">        orderDto.addChannelOrder(formData);</span>
+<span class="nc" id="L61">        return ResponseEntity.ok(&quot;Request submitted successfully.&quot;);</span>
+    }
+
+    @ApiOperation(value = &quot;Allocate Orders&quot;)
+    @RequestMapping(value = &quot;/api/order/allocate&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;OrderDataResponse&gt;&gt; allocateOrder() {
+<span class="nc" id="L67">        logger.info(&quot;allocate-orders&quot;);</span>
+<span class="nc" id="L68">        List&lt;OrderDataResponse&gt; responses = orderDto.allocateOrders();</span>
+<span class="nc" id="L69">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Fulfill Orders&quot;)
+    @RequestMapping(value = &quot;/api/order/{orderId}/fulfill/{channelId}&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;OrderDataResponse&gt;&gt; fulfillOrder(@PathVariable(&quot;orderId&quot;) Long orderId,
+                                                                @PathVariable(&quot;channelId&quot;) Long channelId) {
+<span class="nc" id="L76">        logger.info(&quot;fulfill-allocated-orders&quot;);</span>
+<span class="nc" id="L77">        Order order = orderDto.getOrderDetails(orderId);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if(order == null) {</span>
+<span class="nc" id="L79">            logger.info(&quot;No Order found with id : &quot;+orderId);</span>
+<span class="nc" id="L80">            throw new ApiException(&quot;No Order found with id : &quot;+orderId);</span>
+        }
+<span class="nc" id="L82">        ChannelDataResponse channel = orderDto.getChannelDetails(channelId);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if(channel == null) {</span>
+<span class="nc" id="L84">            logger.info(&quot;No Channel found with id : &quot;+channelId);</span>
+<span class="nc" id="L85">            throw new ApiException(&quot;No Channel found with id : &quot;+channelId);</span>
+        }
+<span class="nc" id="L87">        List&lt;OrderDataResponse&gt; responses = orderDto.fulfillOrders(order, channel);</span>
+<span class="nc" id="L88">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets order details by channel-id&quot;)
+    @RequestMapping(value = &quot;/api/order/{channelId}&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;OrderDataResponse&gt;&gt; getOrderDetail(@PathVariable(&quot;channelId&quot;) long channelId) {
+<span class="nc" id="L94">        logger.info(&quot;get-order-list-for-channel&quot;);</span>
+<span class="nc" id="L95">        List&lt;OrderDataResponse&gt; responses = orderDto.getOrderDataForChannel(channelId);</span>
+<span class="nc" id="L96">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets order details by client-id&quot;)
+    @RequestMapping(value = &quot;/api/order/client/{clientId}&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;OrderDataResponse&gt;&gt; getAllOrderDetail(@PathVariable(&quot;clientId&quot;) long clientId) {
+<span class="nc" id="L102">        logger.info(&quot;get-order-list-for-client&quot;);</span>
+<span class="nc" id="L103">        List&lt;OrderDataResponse&gt; responses = orderDto.getOrderDataForClient(clientId);</span>
+<span class="nc" id="L104">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets order details by customer-id&quot;)
+    @RequestMapping(value = &quot;/api/order/customer/{customerId}&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;OrderDataResponse&gt;&gt; getAllOrderDetails(@PathVariable(&quot;customerId&quot;) long customerId) {
+<span class="nc" id="L110">        logger.info(&quot;get-order-list-for-customer&quot;);</span>
+<span class="nc" id="L111">        List&lt;OrderDataResponse&gt; responses = orderDto.getOrderDataForCustomer(customerId);</span>
+<span class="nc" id="L112">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets list of all orders&quot;)
+    @RequestMapping(value = &quot;/api/order&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;OrderDataResponse&gt;&gt; getAllOrders() {
+<span class="nc" id="L118">        logger.info(&quot;get-all-orders&quot;);</span>
+<span class="nc" id="L119">        List&lt;OrderDataResponse&gt; responses = orderDto.getAllOrderData();</span>
+<span class="nc" id="L120">        return ResponseEntity.ok(responses);</span>
+    }
+
+//    @ApiOperation(value = &quot;Gets list of all orders&quot;)
+//    @RequestMapping(value = &quot;/api/order/1&quot;, method = RequestMethod.GET)
+//    public ResponseEntity&lt;List&lt;OrderDataResponse&gt;&gt; getInternalChannelAllOrders() {
+//        logger.info(&quot;get-Internal-channel-all-orders&quot;);
+//        List&lt;OrderDataResponse&gt; responses = orderDto.getInternalChannelAllOrders();
+//        return ResponseEntity.ok(responses);
+//    }
+
+    @ApiOperation(value = &quot;Gets list of all order items&quot;)
+    @RequestMapping(value = &quot;/api/{orderId}/item-list&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;OrderItemDataResponse&gt;&gt; getAllOrderItems(
+            @PathVariable Long orderId) {
+<span class="nc" id="L135">        logger.info(&quot;get-all-order-items&quot;);</span>
+<span class="nc" id="L136">        List&lt;OrderItemDataResponse&gt; responses = orderDto.getAllOrderItemDetails(orderId);</span>
+<span class="nc" id="L137">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets list of all order items&quot;)
+    @RequestMapping(value = &quot;/api/{orderId}/invoice&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;InvoiceOrderItemData&gt;&gt; getOrderItemDataForInvoice(
+            @PathVariable(&quot;orderId&quot;) Long orderId) {
+<span class="nc" id="L144">        logger.info(&quot;get-all-order-items&quot;);</span>
+<span class="nc" id="L145">        List&lt;InvoiceOrderItemData&gt; responses = orderDto.getFulfilledOrderItemDataForInvoice(orderId);</span>
+<span class="nc" id="L146">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Download Invoice Pdf&quot;)
+    @RequestMapping(value = &quot;/api/download/{fileName}&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;byte[]&gt; downloadInvoicePdf(@PathVariable(&quot;fileName&quot;) String fileName)
+            throws IOException {
+<span class="nc" id="L153">        logger.info(&quot;get-pdf&quot;);</span>
+<span class="nc" id="L154">        byte[] response = orderDto.getPDfInBytes(fileName);</span>
+<span class="nc" id="L155">        logger.info(response.length);</span>
+<span class="nc" id="L156">        return ResponseEntity.ok(response);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets list of all channel&quot;)
+    @RequestMapping(value = &quot;/api/channel&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;ChannelDataResponse&gt;&gt; getAllChannelData() {
+<span class="nc" id="L162">        logger.info(&quot;get-All-channel&quot;);</span>
+<span class="nc" id="L163">        List&lt;ChannelDataResponse&gt; responses = orderDto.getAllChannelData();</span>
+<span class="nc" id="L164">        return ResponseEntity.ok(responses);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

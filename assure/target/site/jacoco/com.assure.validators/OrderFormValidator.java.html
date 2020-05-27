@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderFormValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.assure.validators</a> &gt; <span class="el_source">OrderFormValidator.java</span></div><h1>OrderFormValidator.java</h1><pre class="source lang-java linenums">package com.assure.validators;
+
+import com.assure.dto.OrderDto;
+import com.assure.model.form.OrderForm;
+import com.assure.model.form.OrderItemForm;
+import com.assure.pojo.Client;
+import com.assure.pojo.Order;
+import com.assure.pojo.Product;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import java.util.List;
+
+@Component
+<span class="fc" id="L18">public class OrderFormValidator implements Validator {</span>
+
+    @Autowired private OrderDto orderDto;
+
+<span class="fc" id="L22">    private static final Logger logger = Logger.getLogger(OrderFormValidator.class);</span>
+
+    @Override
+    public boolean supports(Class&lt;?&gt; clazz) {
+<span class="nc" id="L26">        return OrderFormValidator.class.equals(clazz);</span>
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+<span class="nc" id="L31">        OrderForm form = (OrderForm) target;</span>
+<span class="nc" id="L32">        Long clientId = form.getClientId();</span>
+<span class="nc" id="L33">        String channelOrderId = form.getChannelOrderId();</span>
+<span class="nc" id="L34">        logger.info(channelOrderId);</span>
+<span class="nc" id="L35">        List&lt;OrderItemForm&gt; orderItemFormList = form.getOrderItemFormList();</span>
+<span class="nc" id="L36">        logger.info(orderItemFormList.size());</span>
+<span class="nc" id="L37">        Client client = orderDto.getClientDetails(clientId);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (client == null) {</span>
+<span class="nc" id="L39">            logger.info(&quot;client not found&quot;);</span>
+<span class="nc" id="L40">            errors.rejectValue(&quot;clientId&quot;, &quot;not found&quot;,&quot;Client not found with ID : &quot; + clientId);</span>
+        }
+
+<span class="nc" id="L43">        Order order = orderDto.getOrderDetails(channelOrderId);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (order != null) {</span>
+<span class="nc" id="L45">            logger.info(&quot;duplicate channel order id&quot;);</span>
+<span class="nc" id="L46">            errors.rejectValue(&quot;channelOrderId&quot;, &quot;duplicate&quot;,&quot;Duplicate value found for Channel Order ID : &quot; + channelOrderId);</span>
+        }
+<span class="nc" id="L48">        int index = 0;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (OrderItemForm itemForm : orderItemFormList) {</span>
+<span class="nc" id="L50">            String clientSkuId = itemForm.getClientSkuId();</span>
+
+<span class="nc" id="L52">            Product product = orderDto.getProduct(clientSkuId, clientId);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (product == null) {</span>
+<span class="nc" id="L54">                logger.info(&quot;no product found&quot;);</span>
+<span class="nc" id="L55">                errors.pushNestedPath(&quot;orderItemFormList[&quot;+index+&quot;]&quot;);</span>
+<span class="nc" id="L56">                errors.rejectValue(&quot;clientSkuId&quot;, &quot;not found&quot;,&quot;Product not found with Client SKU ID : &quot; + clientSkuId);</span>
+<span class="nc" id="L57">                errors.popNestedPath();</span>
+            }
+<span class="nc" id="L59">            index++;</span>
+<span class="nc" id="L60">        }</span>
+<span class="nc" id="L61">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

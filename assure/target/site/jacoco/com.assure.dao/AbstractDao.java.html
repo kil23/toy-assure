@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.assure.dao</a> &gt; <span class="el_source">AbstractDao.java</span></div><h1>AbstractDao.java</h1><pre class="source lang-java linenums">package com.assure.dao;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
+
+public abstract class AbstractDao&lt;T&gt; {
+
+	protected Class&lt;T&gt; clazz;
+
+<span class="fc" id="L14">	public AbstractDao(Class&lt;T&gt; clazz){</span>
+<span class="fc" id="L15">		this.clazz = clazz;</span>
+<span class="fc" id="L16">	}</span>
+
+	@PersistenceContext
+	protected EntityManager em;
+
+	protected T getSingle(TypedQuery&lt;T&gt; query) {
+<span class="fc" id="L22">		return query.getResultList().stream().findFirst().orElse(null);</span>
+	}
+
+	protected  TypedQuery&lt;T&gt; getQuery(String jpql) {
+<span class="fc" id="L26">		return em.createQuery(jpql, clazz);</span>
+	}
+
+	@Transactional(readOnly = true)
+	public T findOne(Long id){
+<span class="fc" id="L31">		return em.find( clazz, id);</span>
+	}
+
+	@Transactional(readOnly = true)
+	public List&lt;T&gt; findAll(){
+<span class="fc" id="L36">		return em.createQuery(&quot;from &quot; + clazz.getName()).getResultList();</span>
+	}
+
+	@Transactional
+	public T insert(T t){
+<span class="fc" id="L41">		em.persist(t);</span>
+<span class="fc" id="L42">		em.flush();</span>
+<span class="fc" id="L43">		return t;</span>
+	}
+
+	@Transactional
+	public T update(T t){
+<span class="fc" id="L48">		em.merge(t);</span>
+<span class="fc" id="L49">		em.flush();</span>
+<span class="fc" id="L50">        return t;</span>
+    }
+
+	@Transactional
+	public void delete(T t){
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		em.remove(em.contains(t) ? t : em.merge(t));</span>
+<span class="nc" id="L56">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

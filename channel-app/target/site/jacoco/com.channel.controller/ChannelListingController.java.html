@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChannelListingController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">channel-app</a> &gt; <a href="index.source.html" class="el_package">com.channel.controller</a> &gt; <span class="el_source">ChannelListingController.java</span></div><h1>ChannelListingController.java</h1><pre class="source lang-java linenums">package com.channel.controller;
+
+import com.channel.dto.ChannelListingDto;
+import com.channel.model.form.ChannelListingForm;
+import com.channel.model.response.ChannelListingDataResponse;
+import com.channel.validators.CreateChannelListingFormValidator;
+import com.commons.response.ClientDataResponse;
+import com.commons.service.CustomValidationException;
+import io.swagger.annotations.ApiOperation;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+<span class="fc" id="L20">public class ChannelListingController {</span>
+
+    @Autowired private ChannelListingDto channelListingDto;
+    @Autowired private CreateChannelListingFormValidator channelListingValidator;
+
+<span class="fc" id="L25">    private static final Logger logger = Logger.getLogger(ChannelListingController.class);</span>
+
+    @ApiOperation(value = &quot;Adds a new channel-listing&quot;)
+    @RequestMapping(value = &quot;/api/{channelId}/listing&quot;, method = RequestMethod.POST)
+    public ResponseEntity&lt;String&gt; addChannelListing(@PathVariable(&quot;channelId&quot;) Long channelId,
+                                                    @Valid @RequestBody ChannelListingForm formData,
+                                                    BindingResult result) {
+<span class="nc" id="L32">        logger.info(&quot;add-channel-listing&quot;);</span>
+<span class="nc" id="L33">        logger.info(result.getErrorCount());</span>
+<span class="nc" id="L34">        channelListingValidator.validate(formData, result);</span>
+<span class="nc" id="L35">        logger.info(result.getErrorCount());</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if(result.hasErrors()){</span>
+<span class="nc" id="L37">            throw new CustomValidationException(result);</span>
+        }
+<span class="nc" id="L39">        channelListingDto.addListing(formData, channelId);</span>
+<span class="nc" id="L40">        return ResponseEntity.ok(&quot;Request Submitted successfully.&quot;);</span>
+    }
+
+    @ApiOperation(value = &quot;Delete a channel-listing by Id&quot;)
+    @RequestMapping(path = &quot;/api/{channelId}/listing/{clientId}/{listingId}&quot;, method = RequestMethod.DELETE)
+    public ResponseEntity&lt;String&gt; deleteChannelListing(@PathVariable(&quot;listingId&quot;) Long listingId) {
+<span class="nc" id="L46">        logger.info(&quot;delete a channel-listing&quot;);</span>
+<span class="nc" id="L47">        channelListingDto.deleteListing(listingId);</span>
+<span class="nc" id="L48">        return ResponseEntity.ok(&quot;Request Submitted successfully.&quot;);</span>
+    }
+
+//    @ApiOperation(value = &quot;Gets channel-listing by Id&quot;)
+//    @RequestMapping(value = &quot;/api/{channelId}/listings/{listingId}&quot;, method = RequestMethod.GET)
+//    public ResponseEntity&lt;ChannelListingDataResponse&gt; getChannelListing(@PathVariable(&quot;listingId&quot;) Long listingId) throws ApiException {
+//        logger.info(&quot;get-channel-listing-by-listingId&quot;);
+//        ChannelListingDataResponse response = channelListingDto.getListing(listingId);
+//        return ResponseEntity.ok(response);
+//    }
+
+    @ApiOperation(value = &quot;Gets list of all channel-listing for the channel's client&quot;)
+    @RequestMapping(value = &quot;/api/{channelId}/listing/{clientId}&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;ChannelListingDataResponse&gt;&gt; getAllChannelListing(
+                                        @PathVariable(&quot;channelId&quot;) Long channelId,
+                                        @PathVariable(&quot;clientId&quot;) long clientId) {
+<span class="nc" id="L64">        logger.info(&quot;get-All-channel-listings-for-a-client&quot;);</span>
+<span class="nc" id="L65">        List&lt;ChannelListingDataResponse&gt; responses = channelListingDto.getAllChannelWiseListingForClient(channelId, clientId);</span>
+<span class="nc" id="L66">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets list of all channel-listing for the channel&quot;)
+    @RequestMapping(value = &quot;/api/{channelId}/listing&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;ChannelListingDataResponse&gt;&gt; getAllChannelListing(
+                                        @PathVariable(&quot;channelId&quot;) Long channelId) {
+<span class="nc" id="L73">        logger.info(&quot;get-All-channel-listings-for-a-channel&quot;);</span>
+<span class="nc" id="L74">        List&lt;ChannelListingDataResponse&gt; responses = channelListingDto.getAllChannelListingForChannel(channelId);</span>
+<span class="nc" id="L75">        return ResponseEntity.ok(responses);</span>
+    }
+
+    @ApiOperation(value = &quot;Gets list of all channel-listing for the channel's client&quot;)
+    @RequestMapping(value = &quot;/api/{channelId}/listing-client&quot;, method = RequestMethod.GET)
+    public ResponseEntity&lt;List&lt;ClientDataResponse&gt;&gt; getAllChannelListingClients(
+                                        @PathVariable(&quot;channelId&quot;) Long channelId) {
+<span class="nc" id="L82">        logger.info(&quot;get-All-channel-listings-for-a-channels-client&quot;);</span>
+<span class="nc" id="L83">        List&lt;ClientDataResponse&gt; responses = channelListingDto.getAllChannelListingClients(channelId);</span>
+<span class="nc" id="L84">        return ResponseEntity.ok(responses);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemForm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.assure.model.form</a> &gt; <span class="el_source">OrderItemForm.java</span></div><h1>OrderItemForm.java</h1><pre class="source lang-java linenums">package com.assure.model.form;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.*;
+
+@Getter
+<span class="nc" id="L10">@Setter</span>
+<span class="nc" id="L11">public class OrderItemForm {</span>
+
+//    @Pattern(regexp = &quot;^[a-zA-Z]{2,15}[-\\s]?[a-zA-Z0-9]{1,10}$&quot;, message = &quot;Invalid Client-SKU-ID. Value did not match the requirement.&quot;)
+    @NotNull(message = &quot;Client-SKU-ID cannot be null.&quot;)
+    @JsonProperty(value = &quot;clientSkuId&quot;)
+<span class="nc" id="L16">    private String clientSkuId;</span>
+
+    @Min(value = 1, message = &quot;Min Ordered Quantity value should be 1.&quot;)
+    @Max(value = 50, message = &quot;Max Ordered Quantity value should be 50.&quot;)
+    @NotNull(message = &quot;Ordered Quantity value cannot be null.&quot;)
+    @JsonProperty(value = &quot;orderedQuantity&quot;)
+<span class="nc" id="L22">    private Long orderedQuantity;</span>
+
+    @Min(value = 1, message = &quot;Min Selling Price Per Unit value should be 1.&quot;)
+    @Max(value = 30000, message = &quot;Max Selling Price Per Unit value should be 30000.&quot;)
+    @NotNull(message = &quot;Selling Price Per Unit cannot be null.&quot;)
+    @JsonProperty(value = &quot;sellingPricePerUnit&quot;)
+<span class="nc" id="L28">    private Double sellingPricePerUnit;</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

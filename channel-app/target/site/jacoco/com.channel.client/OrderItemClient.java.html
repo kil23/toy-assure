@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">channel-app</a> &gt; <a href="index.source.html" class="el_package">com.channel.client</a> &gt; <span class="el_source">OrderItemClient.java</span></div><h1>OrderItemClient.java</h1><pre class="source lang-java linenums">package com.channel.client;
+
+import com.commons.response.InvoiceOrderItemData;
+import com.commons.response.OrderItemDataResponse;
+import com.commons.util.AbstractRestTemplate;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Component
+<span class="fc" id="L18">public class OrderItemClient extends AbstractRestTemplate {</span>
+
+<span class="fc" id="L20">    private static final Logger logger = Logger.getLogger(OrderItemClient.class);</span>
+
+    @Autowired private RestTemplate restTemplate;
+
+    @Value(&quot;${server.url}&quot;)
+    private String SERVER_URL;
+
+    public List&lt;OrderItemDataResponse&gt; getOrderItemDetails(Long orderId) {
+<span class="fc" id="L28">        String GET_ORDER_ITEM_URL = SERVER_URL + &quot;/&quot; + orderId + &quot;/item-list&quot;;</span>
+<span class="fc" id="L29">        HttpEntity&lt;OrderItemDataResponse[]&gt; entity = new HttpEntity&lt;&gt;(getHeaders());</span>
+<span class="fc" id="L30">        OrderItemDataResponse[] response = restTemplate.exchange(GET_ORDER_ITEM_URL,</span>
+<span class="fc" id="L31">                HttpMethod.GET, entity, OrderItemDataResponse[].class).getBody();</span>
+<span class="fc" id="L32">        return Arrays.asList(response);</span>
+    }
+
+    public List&lt;InvoiceOrderItemData&gt; getOrderItemDataForInvoice(Long orderId) {
+<span class="nc" id="L36">        String GET_ORDER_ITEM_URL = SERVER_URL + &quot;/&quot; + orderId + &quot;/invoice&quot;;</span>
+<span class="nc" id="L37">        logger.info(&quot;here&quot;);</span>
+<span class="nc" id="L38">        HttpEntity&lt;InvoiceOrderItemData[]&gt; entity = new HttpEntity&lt;&gt;(getHeaders());</span>
+<span class="nc" id="L39">        InvoiceOrderItemData[] response = restTemplate.exchange(GET_ORDER_ITEM_URL,</span>
+<span class="nc" id="L40">                HttpMethod.GET, entity, InvoiceOrderItemData[].class).getBody();</span>
+<span class="nc" id="L41">        logger.info(&quot;here&quot;);</span>
+<span class="nc" id="L42">        return Arrays.asList(response);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

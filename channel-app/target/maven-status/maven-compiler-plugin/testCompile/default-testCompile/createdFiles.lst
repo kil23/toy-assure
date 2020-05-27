@@ -1,0 +1,11 @@
+com\channel\client\OrderItemClientMockApiUnitTest.class
+com\channel\service\AbstractUnitTest.class
+com\channel\client\ClientClientMockApiUnitTest.class
+com\channel\dto\ChannelDtoTest.class
+com\channel\api\ChannelListingApiTest.class
+com\channel\dao\ChannelDaoTest.class
+com\channel\api\ChannelApiTest.class
+com\channel\client\ProductClientMockApiUnitTest.class
+com\channel\client\OrderClientMockApiUnitTest.class
+com\channel\dao\ChannelListingDaoTest.class
+com\channel\service\QaConfig.class

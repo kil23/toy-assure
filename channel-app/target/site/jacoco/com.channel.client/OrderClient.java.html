@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">channel-app</a> &gt; <a href="index.source.html" class="el_package">com.channel.client</a> &gt; <span class="el_source">OrderClient.java</span></div><h1>OrderClient.java</h1><pre class="source lang-java linenums">package com.channel.client;
+
+import com.commons.form.ChannelOrderForm;
+import com.commons.response.OrderDataResponse;
+import com.commons.util.AbstractRestTemplate;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+
+@Component
+<span class="fc" id="L17">public class OrderClient extends AbstractRestTemplate {</span>
+<span class="fc" id="L18">    private static final Logger logger = Logger.getLogger(OrderClient.class);</span>
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value(&quot;${server.url}&quot;)
+    private String SERVER_URL;
+
+    public void postOrderDetails(ChannelOrderForm form){
+<span class="nc" id="L27">        String POST_ORDER_URL = SERVER_URL + &quot;/channel/order&quot;;</span>
+        try{
+<span class="nc" id="L29">            HttpEntity&lt;ChannelOrderForm&gt; requestBody = new HttpEntity&lt;&gt;(form, getHeaders());</span>
+<span class="nc" id="L30">            ResponseEntity&lt;String&gt; responseEntity = restTemplate.exchange(POST_ORDER_URL,</span>
+                    HttpMethod.POST, requestBody, String.class);
+<span class="nc" id="L32">            logger.info(responseEntity.getBody());</span>
+<span class="nc" id="L33">        }catch (Exception e){</span>
+<span class="nc" id="L34">            e.printStackTrace();</span>
+<span class="nc" id="L35">        }</span>
+<span class="nc" id="L36">    }</span>
+
+    public List&lt;OrderDataResponse&gt; getOrderDetails(long channelId){
+<span class="fc" id="L39">        String GET_ORDER_URL = SERVER_URL + &quot;/order/&quot;+channelId;</span>
+<span class="fc" id="L40">        HttpEntity&lt;OrderDataResponse[]&gt; entity = new HttpEntity&lt;&gt;(getHeaders());</span>
+<span class="fc" id="L41">        OrderDataResponse[] response = restTemplate.exchange(GET_ORDER_URL,</span>
+<span class="fc" id="L42">                HttpMethod.GET, entity, OrderDataResponse[].class).getBody();</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if(response != null) {</span>
+<span class="fc" id="L44">            return Arrays.asList(response);</span>
+        }
+<span class="nc" id="L46">        return null;</span>
+    }
+
+    public List&lt;OrderDataResponse&gt; getAllOrderDetails(long clientId) {
+<span class="nc" id="L50">        String GET_ORDER_URL = SERVER_URL + &quot;/order/client/&quot;+clientId;</span>
+<span class="nc" id="L51">        HttpEntity&lt;OrderDataResponse[]&gt; entity = new HttpEntity&lt;&gt;(getHeaders());</span>
+<span class="nc" id="L52">        OrderDataResponse[] response = restTemplate.exchange(GET_ORDER_URL,</span>
+<span class="nc" id="L53">                HttpMethod.GET, entity, OrderDataResponse[].class).getBody();</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if(response != null) {</span>
+<span class="nc" id="L55">            return Arrays.asList(response);</span>
+        }
+<span class="nc" id="L57">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
